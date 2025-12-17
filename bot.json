@@ -1,0 +1,2396 @@
+{
+  "version": "1.19",
+  "settings": {
+    "defaultLanguage": "en",
+    "languages": [
+      "en"
+    ],
+    "description": "",
+    "id": "2b5dc0d9-e447-4892-9e79-2129862d6203",
+    "inactivityTimeout": 30,
+    "botVariables": [],
+    "userVariables": [],
+    "nodeRepetitionLimit": 3,
+    "configVariables": {},
+    "cognitiveConfigs": {
+      "openAi": {}
+    },
+    "useLlmz": true,
+    "defaultBestModel": "openai__gpt-4.1-2025-04-14",
+    "defaultFastModel": "openai__gpt-4.1-mini-2025-04-14",
+    "useClient": true,
+    "llmzVersion": "01-Oct-2024",
+    "autonomousModel": "best-model",
+    "fallbackModel": "google-ai__models/gemini-2.0-flash",
+    "usePushToGit": false,
+    "useCognitiveV2": false,
+    "disablePublishButton": false
+  },
+  "flows": [
+    {
+      "id": "wf-error",
+      "name": "Error",
+      "startNode": "nd-98dc0bcc87",
+      "variables": [],
+      "links": [
+        {
+          "id": "edg-1cb5862648",
+          "source": "nd-98dc0bcc87",
+          "sourcePort": "trs-02c7129430",
+          "target": "nd-58fca56e01"
+        },
+        {
+          "id": "edg-1c28c96d6a",
+          "source": "nd-58fca56e01",
+          "sourcePort": "nd-58fca56e01",
+          "target": "nd-e05f59dd66"
+        }
+      ],
+      "nodes": [
+        {
+          "comment": "<p><strong><span style=\"font-size: 18px\">⛔️ When something goes wrong</span></strong></p><p><br>This workflow is executed when there's an <strong>unexpected error</strong> in one of the other workflows.</p><p></p><p>You can use this to inform the user of the situation before ending the conversation.</p>",
+          "type": "comment",
+          "id": "nd-8ff3d7d295",
+          "name": "Comment1",
+          "deletable": true,
+          "instructions": [],
+          "height": 148,
+          "width": 401,
+          "x": 90,
+          "y": -45
+        },
+        {
+          "instructions": [
+            {
+              "id": "ins-2762f70004",
+              "type": "content",
+              "content": {
+                "type": "text",
+                "text": {
+                  "staticValue": "Sorry, an error occurred. Please try again later",
+                  "dynamicValue": "",
+                  "valueType": "static"
+                },
+                "typing": {
+                  "valueType": "static",
+                  "staticValue": true
+                }
+              },
+              "nodeId": "nd-58fca56e01",
+              "transitions": []
+            }
+          ],
+          "defaultTransition": {
+            "targetNodeId": "nd-e05f59dd66"
+          },
+          "type": "standard",
+          "id": "nd-58fca56e01",
+          "name": "Handler",
+          "deletable": true,
+          "x": 450,
+          "y": 120
+        },
+        {
+          "id": "nd-98dc0bcc87",
+          "name": "On_Error",
+          "type": "entry",
+          "deletable": false,
+          "variables": [],
+          "instructions": [
+            {
+              "id": "trs-02c7129430",
+              "type": "transition",
+              "condition": {
+                "type": "expression",
+                "payload": "true"
+              },
+              "destination": {
+                "node": "nd-58fca56e01"
+              },
+              "transitions": [],
+              "nodeId": "nd-98dc0bcc87"
+            }
+          ],
+          "x": 90,
+          "y": 120
+        },
+        {
+          "id": "nd-e05f59dd66",
+          "name": "End",
+          "type": "end",
+          "variables": [],
+          "deletable": false,
+          "instructions": [
+            {
+              "id": "trs-945140a646",
+              "type": "transition",
+              "condition": {
+                "type": "expression",
+                "payload": "true"
+              },
+              "destination": {
+                "node": "END"
+              },
+              "transitions": [],
+              "nodeId": "nd-e05f59dd66"
+            }
+          ],
+          "x": 810,
+          "y": 120
+        }
+      ]
+    },
+    {
+      "id": "wf-timeout",
+      "name": "Timeout",
+      "startNode": "nd-9f7f3268ac",
+      "variables": [],
+      "links": [
+        {
+          "id": "edg-b0d2adcd13",
+          "source": "nd-e6c012a652",
+          "sourcePort": "nd-e6c012a652",
+          "target": "nd-199fdcf439"
+        },
+        {
+          "id": "edg-6d17a0591b",
+          "source": "nd-9f7f3268ac",
+          "sourcePort": "trs-0c7a9a0003",
+          "target": "nd-e6c012a652"
+        }
+      ],
+      "nodes": [
+        {
+          "instructions": [],
+          "defaultTransition": {
+            "targetNodeId": "nd-199fdcf439"
+          },
+          "type": "standard",
+          "id": "nd-e6c012a652",
+          "name": "Handler",
+          "deletable": true,
+          "x": 435,
+          "y": 105
+        },
+        {
+          "comment": "<p><strong><span style=\"font-size: 18px\">⌛️ When conversation times out</span></strong></p><p><br>This workflow is executed when the conversation <strong>times out</strong> before it had time to flow to an <strong>End Node</strong>.</p><p></p><p>The <strong>Timeout Delay</strong> is configurable in the <strong>Chatbot Settings.</strong></p><p></p><p>You can use this to inform the user of the situation before ending the conversation.</p>",
+          "type": "comment",
+          "id": "nd-441efa6c42",
+          "name": "Comment1",
+          "deletable": true,
+          "instructions": [],
+          "height": 173,
+          "width": 401,
+          "x": 105,
+          "y": -90
+        },
+        {
+          "id": "nd-9f7f3268ac",
+          "name": "On_Timeout",
+          "type": "entry",
+          "deletable": false,
+          "variables": [],
+          "instructions": [
+            {
+              "id": "trs-0c7a9a0003",
+              "type": "transition",
+              "condition": {
+                "type": "expression",
+                "payload": "true"
+              },
+              "destination": {
+                "node": "nd-e6c012a652"
+              },
+              "transitions": [],
+              "nodeId": "nd-9f7f3268ac"
+            }
+          ],
+          "x": 100,
+          "y": 100
+        },
+        {
+          "id": "nd-199fdcf439",
+          "name": "End",
+          "type": "end",
+          "variables": [],
+          "deletable": false,
+          "instructions": [
+            {
+              "id": "trs-bf76943d55",
+              "type": "transition",
+              "condition": {
+                "type": "expression",
+                "payload": "true"
+              },
+              "destination": {
+                "node": "END"
+              },
+              "transitions": [],
+              "nodeId": "nd-199fdcf439"
+            }
+          ],
+          "x": 795,
+          "y": 105
+        }
+      ]
+    },
+    {
+      "id": "wf-conversation-end",
+      "name": "Conversation End",
+      "startNode": "nd-c0d3bd2c92",
+      "variables": [],
+      "links": [
+        {
+          "id": "edg-3cb8028ff6",
+          "source": "nd-c0d3bd2c92",
+          "sourcePort": "trs-92c6f93b0c",
+          "target": "nd-2db7499cc6"
+        },
+        {
+          "id": "edg-8a88f687a0",
+          "source": "nd-2db7499cc6",
+          "sourcePort": "nd-2db7499cc6",
+          "target": "nd-d0c2a6be81"
+        }
+      ],
+      "nodes": [
+        {
+          "instructions": [],
+          "defaultTransition": {
+            "targetNodeId": "nd-d0c2a6be81"
+          },
+          "type": "standard",
+          "id": "nd-2db7499cc6",
+          "name": "Handler",
+          "deletable": true,
+          "x": 420,
+          "y": 105
+        },
+        {
+          "comment": "<p><strong><span style=\"font-size: 18px\">👋 Before Conversation Ends</span></strong></p><p><br>This workflow is executed when right before the conversation <strong>Ends Explicitly.</strong></p><p></p><p>An <strong>Explicit Ending</strong> happens when a workflow transitions on an <strong>End Node</strong>.</p>",
+          "type": "comment",
+          "id": "nd-6d5d3f41dd",
+          "name": "Comment1",
+          "deletable": true,
+          "instructions": [],
+          "height": 148,
+          "width": 461,
+          "x": 105,
+          "y": -45
+        },
+        {
+          "id": "nd-c0d3bd2c92",
+          "name": "On_Explicit_Ending",
+          "type": "entry",
+          "deletable": false,
+          "variables": [],
+          "instructions": [
+            {
+              "id": "trs-92c6f93b0c",
+              "type": "transition",
+              "condition": {
+                "type": "expression",
+                "payload": "true"
+              },
+              "destination": {
+                "node": "nd-2db7499cc6"
+              },
+              "transitions": [],
+              "nodeId": "nd-c0d3bd2c92"
+            }
+          ],
+          "x": 100,
+          "y": 100
+        },
+        {
+          "id": "nd-d0c2a6be81",
+          "name": "End",
+          "type": "end",
+          "variables": [],
+          "deletable": false,
+          "instructions": [
+            {
+              "id": "trs-7004dbb2b6",
+              "type": "transition",
+              "condition": {
+                "type": "expression",
+                "payload": "true"
+              },
+              "destination": {
+                "node": "END"
+              },
+              "transitions": [],
+              "nodeId": "nd-d0c2a6be81"
+            }
+          ],
+          "x": 780,
+          "y": 105
+        }
+      ]
+    },
+    {
+      "topicId": "tpc-global",
+      "id": "wf-main",
+      "name": "Main",
+      "startNode": "nd-2bb9db230d",
+      "variables": [
+        {
+          "id": "var-d03191578c",
+          "name": "topic",
+          "description": "for the AI topic",
+          "type": "string",
+          "scope": "workflow",
+          "defaultValue": "",
+          "storeAsTag": false
+        },
+        {
+          "id": "var-186b6492c2",
+          "name": "UserLevel",
+          "description": "for classification",
+          "type": "string",
+          "scope": "workflow",
+          "defaultValue": "",
+          "storeAsTag": false
+        },
+        {
+          "id": "var-43ac01825f",
+          "name": "StudyGuide",
+          "description": "for hugging face content",
+          "type": "string",
+          "scope": "workflow",
+          "defaultValue": "",
+          "storeAsTag": false
+        },
+        {
+          "id": "var-49daa9eacb",
+          "name": "tempscore",
+          "description": "",
+          "type": "number",
+          "scope": "workflow",
+          "defaultValue": 0,
+          "storeAsTag": false
+        }
+      ],
+      "links": [],
+      "nodes": [
+        {
+          "id": "nd-2bb9db230d",
+          "name": "Start",
+          "type": "start",
+          "deletable": false,
+          "instructions": [
+            {
+              "id": "trs-8b0779edc5",
+              "type": "transition",
+              "condition": {
+                "type": "expression",
+                "payload": "true"
+              },
+              "destination": {
+                "node": "nd-54aa0c19de"
+              },
+              "transitions": [],
+              "nodeId": "nd-2bb9db230d"
+            }
+          ],
+          "x": -255,
+          "y": -15,
+          "kbPriority": {
+            "enabled": false,
+            "searchScope": "specific",
+            "kbs": []
+          }
+        },
+        {
+          "id": "nd-80ac4ff158",
+          "name": "End",
+          "type": "end",
+          "deletable": false,
+          "instructions": [
+            {
+              "id": "trs-0260f5e672",
+              "type": "transition",
+              "condition": {
+                "type": "expression",
+                "payload": "true"
+              },
+              "destination": {
+                "node": "END"
+              },
+              "transitions": [],
+              "nodeId": "nd-80ac4ff158"
+            }
+          ],
+          "x": 1965,
+          "y": 420
+        },
+        {
+          "type": "autonomous",
+          "deletable": true,
+          "x": 45,
+          "y": 0,
+          "instructions": [
+            {
+              "id": "ins-1465ce0650",
+              "agentId": "KnowledgeAgent",
+              "toolId": "knowledge-query",
+              "toolType": "search",
+              "type": "autonomous",
+              "label": "Search Knowledge Bases",
+              "category": "Knowledge Bases",
+              "nodeId": "nd-54aa0c19de",
+              "transitions": [],
+              "description": "Searches for information in the official knowledge bases.",
+              "kbs": {
+                "valueType": "static",
+                "staticValue": [],
+                "dynamicValue": ""
+              },
+              "advanced": {
+                "mode": "breadcrumb",
+                "contextDepth": 2,
+                "maxTokens": 20
+              },
+              "manualFields": []
+            },
+            {
+              "type": "autonomous",
+              "toolType": "transition",
+              "condition": {
+                "valueType": "dynamic",
+                "dynamicValue": "If user says \"Learn about NLP\" transitioon to NLP_Flow ",
+                "staticValue": ""
+              },
+              "id": "ins-0c81e341d3",
+              "category": "Flow Logic",
+              "label": "Transition",
+              "nodeId": "nd-54aa0c19de",
+              "manualFields": [],
+              "transitions": [],
+              "destination": {
+                "node": "nd-96cf89d127"
+              }
+            },
+            {
+              "type": "autonomous",
+              "toolType": "transition",
+              "condition": {
+                "valueType": "dynamic",
+                "dynamicValue": "If user says \"Explore AI Ethics\" transition to Ethics_Flow",
+                "staticValue": ""
+              },
+              "id": "ins-4d614dc5a8",
+              "category": "Flow Logic",
+              "label": "Transition",
+              "nodeId": "nd-54aa0c19de",
+              "manualFields": [],
+              "transitions": [],
+              "destination": {
+                "node": "nd-f85cc097aa"
+              }
+            },
+            {
+              "type": "autonomous",
+              "toolType": "transition",
+              "condition": {
+                "valueType": "dynamic",
+                "dynamicValue": "If user says \"Take AI Level Quiz\" transition to Quiz_Flow",
+                "staticValue": ""
+              },
+              "id": "ins-0b2035dd87",
+              "category": "Flow Logic",
+              "label": "Transition",
+              "nodeId": "nd-54aa0c19de",
+              "manualFields": [],
+              "transitions": [],
+              "destination": {
+                "node": "nd-028c1e9f5b"
+              }
+            },
+            {
+              "type": "autonomous",
+              "toolType": "transition",
+              "condition": {
+                "valueType": "dynamic",
+                "dynamicValue": "If user says \"Ask question\" transition to AskQuestions",
+                "staticValue": ""
+              },
+              "id": "ins-a47336cabe",
+              "category": "Flow Logic",
+              "label": "Transition",
+              "nodeId": "nd-54aa0c19de",
+              "manualFields": [],
+              "transitions": [],
+              "destination": {
+                "node": "nd-adee8472bb"
+              }
+            }
+          ],
+          "id": "nd-54aa0c19de",
+          "name": "MainMenu",
+          "writableVariables": [],
+          "allowConversation": true,
+          "guidelines": {
+            "valueType": "dynamic",
+            "dynamicValue": "Welcome to AI LearnMate! I’m here to help you explore AI. \nChoose one of the following options:\n\n1) Learn about NLP\n2) Explore AI Ethics\n3) Take AI Level Quiz\n4) Ask a Question\n\nIf the user says \"NLP\", go to the NLP_Flow.\nIf the user says \"Ethics\", go to the Ethics_Flow.\nIf the user says \"Quiz\", go to the Quiz_Flow.\nIf the user says \"Ask\", go to the AskQuestions workflow.\n\nAlways use simple, friendly language. \nAfter completing any topic, return here to show the menu again.\nIf the user says \"menu\" or \"start over\", show this menu again. Do not create your own menu after starting over.\nIf the user says something unclear, respond: \n\"Sorry, I didn’t catch that. Try NLP, Ethics, Quiz, or Ask a Question.\"\n\nalways show visuals/image after an explanation of NLP, Ethics or AI Hierarchy\n\n"
+          },
+          "readableVariables": []
+        },
+        {
+          "type": "autonomous",
+          "deletable": true,
+          "x": 570,
+          "y": -570,
+          "instructions": [
+            {
+              "id": "ins-fe8547b50c",
+              "type": "autonomous",
+              "toolType": "search",
+              "category": "Knowledge Bases",
+              "label": "Search Knowledge Bases",
+              "description": "Searches for information in the official knowledge bases.",
+              "kbs": {
+                "valueType": "static",
+                "staticValue": [
+                  "kb-default"
+                ],
+                "dynamicValue": ""
+              },
+              "advanced": {
+                "contextDepth": 1,
+                "maxTokens": 100,
+                "mode": "consolidate"
+              },
+              "nodeId": "nd-96cf89d127",
+              "manualFields": [],
+              "transitions": []
+            },
+            {
+              "type": "autonomous",
+              "toolType": "transition",
+              "condition": {
+                "valueType": "dynamic",
+                "dynamicValue": " transition to nlp_image",
+                "staticValue": ""
+              },
+              "id": "ins-e9a57aa310",
+              "category": "Flow Logic",
+              "label": "Transition",
+              "nodeId": "nd-96cf89d127",
+              "manualFields": [],
+              "transitions": [],
+              "destination": {
+                "node": "nd-5ef94e5df4"
+              }
+            },
+            {
+              "type": "autonomous",
+              "toolType": "transition",
+              "condition": {
+                "valueType": "dynamic",
+                "dynamicValue": "if user says anything not stated in the options given transition to FallBack",
+                "staticValue": ""
+              },
+              "id": "ins-c605c9e011",
+              "category": "Flow Logic",
+              "label": "Transition",
+              "nodeId": "nd-96cf89d127",
+              "manualFields": [],
+              "transitions": [],
+              "destination": {
+                "node": "nd-8a94cdd922"
+              }
+            }
+          ],
+          "allowConversation": true,
+          "readableVariables": [],
+          "id": "nd-96cf89d127",
+          "name": "NLP_Flow",
+          "guidelines": {
+            "valueType": "dynamic",
+            "dynamicValue": "Welcome to the NLP module. Let’s explore Natural Language Processing.\n\nStep 1: Menu\nOffer the user five topics to choose from:\n- Tokenization\n- Embeddings\n- Sentiment Analysis\n- Named Entity Recognition (NER)\n- Language Models\n\nStep 2: Explanations\nWhen the user chooses a topic, give a short explanation (2–3 sentences):\n- Tokenization: Splitting text into words or subwords for processing.\n- Embeddings: Representing words as numerical vectors that capture meaning.\n- Sentiment Analysis: Detecting emotions or opinions in text (positive, negative, neutral).\n- Named Entity Recognition (NER): Identifying names, places, dates, and other entities in text.\n- Language Models: Predicting or generating text based on patterns learned from data.\n\nStep 3: Interactive Demo\nAfter explaining Sentiment Analysis, offer a demo:\nAsk the user to type a sentence. Classify it as Positive, Negative, or Neutral based on keywords.\n\nStep 4: Reflection\nAsk the user:\n- \"Which NLP technique do you think is most useful for chatbots?\"\n- \"Can you think of an example where NER would be important?\"\n\nStep 5: Visual\nOffer to show an NLP pipeline diagram:\nText → Tokenization → Embeddings → Model → Output. Also show the NLP_visual at the same time\n\nStep 6: Return to Menu\nFinally, ask:\n\"Would you like to explore another NLP topic or return to the main menu?\"\nIf they say \"menu\" or \"start over\", go to the Main workflow."
+          }
+        },
+        {
+          "type": "autonomous",
+          "deletable": true,
+          "x": 570,
+          "y": -165,
+          "instructions": [
+            {
+              "id": "ins-550b9bdb97",
+              "type": "autonomous",
+              "toolType": "search",
+              "category": "Knowledge Bases",
+              "label": "Search Knowledge Bases",
+              "description": "Searches for information in the official knowledge bases.",
+              "kbs": {
+                "valueType": "static",
+                "staticValue": [
+                  "kb-default"
+                ],
+                "dynamicValue": ""
+              },
+              "advanced": {
+                "contextDepth": 1,
+                "maxTokens": 100,
+                "mode": "consolidate"
+              },
+              "nodeId": "nd-f85cc097aa",
+              "manualFields": [],
+              "transitions": []
+            },
+            {
+              "type": "autonomous",
+              "toolType": "transition",
+              "condition": {
+                "valueType": "dynamic",
+                "dynamicValue": "if user says anything not stated in the options given transition to FallBack\n",
+                "staticValue": ""
+              },
+              "id": "ins-d21f256886",
+              "category": "Flow Logic",
+              "label": "Transition",
+              "nodeId": "nd-f85cc097aa",
+              "manualFields": [],
+              "transitions": [],
+              "destination": {
+                "node": "nd-8a94cdd922"
+              }
+            },
+            {
+              "type": "autonomous",
+              "toolType": "transition",
+              "condition": {
+                "valueType": "dynamic",
+                "dynamicValue": "after offering to show a diagram transition to ethics_image",
+                "staticValue": ""
+              },
+              "id": "ins-de8f27e517",
+              "category": "Flow Logic",
+              "label": "Transition",
+              "nodeId": "nd-f85cc097aa",
+              "manualFields": [],
+              "transitions": [],
+              "destination": {
+                "node": "nd-d546e08efa"
+              }
+            }
+          ],
+          "allowConversation": true,
+          "readableVariables": [],
+          "id": "nd-f85cc097aa",
+          "name": "Ethics_Flow",
+          "guidelines": {
+            "valueType": "dynamic",
+            "dynamicValue": "Welcome to the AI Ethics module. Let’s explore how to build responsible AI.\n\nStep 1: Survey\nAsk the user three Yes/No questions:\n1. Do you have diverse training data?\n2. Do you document model decisions?\n3. Can users opt out or request deletion?\n\nStep 2: Recommendation\nIf the user answers \"No\" to two or more questions, say:\n\"Your AI plan needs revision. Focus on improving fairness, transparency, and privacy before moving forward.\"\n\nIf the user answers \"Yes\" to most questions, say:\n\"Your AI plan looks strong. You can proceed, but keep monitoring for bias, privacy issues, and unintended impacts.\"\n\nStep 3: Mini Lessons\nAfter the recommendation, explain briefly:\n- Fairness: Avoid bias in datasets and models.\n- Transparency: Document decisions and make models explainable.\n- Privacy: Protect user data and allow consent.\n- Accountability: Humans remain responsible for AI outcomes.\n\nStep 4: Real-world Examples\nShare examples:\n- Facial recognition bias in darker skin tones.\n- Cambridge Analytica data misuse.\n- Explainability tools like SHAP and LIME.\n\nStep 5: Reflection\nAsk the user:\n- \"Imagine you’re building a chatbot for schools. How would you ensure fairness?\"\n- \"What happens if your AI makes a mistake? Who should be accountable?\"\n\nStep 6: Visual\nOffer to show an Ethics flowchart diagram:\nUse case → Data → Fairness → Privacy → Transparency → Proceed/Revise. also show from Ethics_visual same time\n\nStep 7: Return to Menu\nFinally, ask:\n\"Would you like to return to the main menu or explore another topic?\"\nIf they say \"menu\" or \"start over\", go to the Main workflow.\n"
+          }
+        },
+        {
+          "type": "autonomous",
+          "deletable": true,
+          "x": 660,
+          "y": 255,
+          "instructions": [
+            {
+              "type": "autonomous",
+              "toolType": "transition",
+              "condition": {
+                "valueType": "dynamic",
+                "dynamicValue": "if user says anything not stated in the options given transition to FallBack",
+                "staticValue": ""
+              },
+              "id": "ins-2a5ed44a9e",
+              "category": "Flow Logic",
+              "label": "Transition",
+              "nodeId": "nd-028c1e9f5b",
+              "manualFields": [],
+              "transitions": [],
+              "destination": {
+                "node": "nd-8a94cdd922"
+              }
+            }
+          ],
+          "allowConversation": true,
+          "readableVariables": [],
+          "id": "nd-028c1e9f5b",
+          "name": "Quiz_Flow",
+          "guidelines": {
+            "valueType": "dynamic",
+            "dynamicValue": "Welcome to the AI Level Quiz! I will ask you 15 multiple-choice questions. Answer with clicking the correct answer ONLY.\n\nStep 1: Questions\nAsk the following one by one:\n\nQ1: Which of these best describes Artificial Intelligence?\nA) Machines that can think and learn\nB) A type of computer hardware\nC) A social media algorithm\nD) A programming language\nCorrect: A\n\nQ2: What is Machine Learning mainly about?\nA) Writing code manually\nB) Training models on data to make predictions\nC) Building websites\nD) Storing information in databases\nCorrect: B\n\nQ3: Which of these is an example of NLP?\nA) Image recognition\nB) Speech-to-text conversion\nC) Sorting numbers\nD) File compression\nCorrect: B\n\nQ4: What is a Neural Network inspired by?\nA) Human brain structure\nB) Internet connections\nC) File systems\nD) Social networks\nCorrect: A\n\nQ5: Which of these is a Large Language Model (LLM)?\nA) GPT\nB) Excel\nC) Photoshop\nD) SQL\nCorrect: A\n\nQ6: Why is Ethics important in AI?\nA) To make AI faster\nB) To ensure fairness, transparency, and privacy\nC) To reduce electricity costs\nD) To improve internet speed\nCorrect: B\n\nQ7: Which of these is an example of Computer Vision?\nA) Image classification\nB) Text summarization\nC) Speech recognition\nD) Database queries\nCorrect: A\n\nQ8: What does “training data” mean in AI?\nA) The code used to run the model\nB) The examples used to teach the model\nC) The hardware used for computation\nD) The final output of the model\nCorrect: B\n\nQ9: Which of these is NOT an AI application?\nA) Predicting exam scores\nB) Recommending movies\nC) Cooking food\nD) Detecting spam emails\nCorrect: C\n\nQ10: What is the main role of embeddings in NLP?\nA) Represent words as vectors capturing meaning\nB) Store images in databases\nC) Compress files\nD) Translate languages directly\nCorrect: A\n\nQ11: Which of these is a supervised learning task?\nA) Predicting house prices from data\nB) Clustering customers by behavior\nC) Generating random text\nD) Detecting anomalies without labels\nCorrect: A\n\nQ12: What is the difference between AI and ML?\nA) AI is broader, ML is a subset\nB) ML is broader, AI is a subset\nC) They are the same\nD) AI only refers to robots\nCorrect: A\n\nQ13: Which of these is an example of bias in AI?\nA) A model misclassifies due to unbalanced data\nB) A model trained on diverse data\nC) A model explains its decisions clearly\nD) A model improves accuracy with more data\nCorrect: A\n\nQ14: What is the purpose of a dataset split (train/test)?\nA) To evaluate model performance fairly\nB) To reduce electricity usage\nC) To store data securely\nD) To make models run faster\nCorrect: A\n\nQ15: Which of these is an example of reinforcement learning?\nA) A robot learning to walk by trial and error\nB) Sorting emails into folders\nC) Translating text between languages\nD) Predicting exam scores\nCorrect: A\n\nStep 2: Scoring\nTrack accurately how many answers are correct.\n\nStep 3: Classification\nAt the end, classify the user:\n- Beginner (0–7 correct): \"You’re starting out. Begin with basics like AI vs ML and simple NLP.\"\n- Intermediate (8–12 correct): \"You’re progressing. Try small projects and explore model evaluation.\"\n- Advanced (13–15 correct): \"You’re strong in fundamentals. Explore fine-tuning, LLMs, and ethics challenges.\"\n\nStep 4: Return to Menu\nAfter showing the result, ask:\n\"Would you like to return to the main menu or explore another topic?\"\nIf they say \"menu\" or \"start over\", go to the Main workflow.\n\nStep 3: Classification\n- Beginner (0–7 correct): Set UserLevel = \"Beginner\"\n- Intermediate (8–12 correct): Set UserLevel = \"Intermediate\"\n- Advanced (13–15 correct): Set UserLevel = \"Advanced\"\n\ndisplay:\n\"You can access the recommended resources based on your level by exiting the chat and entering the Resources Content Generator\"\n\nAlways let the user know if they got the question right or wrong after each question and show them the correct answer and always number the questions correctly. always make use of the classification step and show them how many questions they got right in total.\n\n\n\n\n\n"
+          },
+          "writableVariables": [
+            "var-d03191578c",
+            "var-43ac01825f",
+            "var-186b6492c2"
+          ]
+        },
+        {
+          "type": "autonomous",
+          "deletable": true,
+          "x": 690,
+          "y": 720,
+          "instructions": [
+            {
+              "id": "ins-d76d7d5f73",
+              "type": "autonomous",
+              "toolType": "search",
+              "category": "Knowledge Bases",
+              "label": "Search Knowledge Bases",
+              "description": "Searches for information in the official knowledge bases.",
+              "kbs": {
+                "valueType": "static",
+                "staticValue": [
+                  "kb-default"
+                ],
+                "dynamicValue": ""
+              },
+              "advanced": {
+                "contextDepth": 1,
+                "maxTokens": 100,
+                "mode": "consolidate"
+              },
+              "nodeId": "nd-adee8472bb",
+              "manualFields": [],
+              "transitions": [],
+              "forceThink": {
+                "valueType": "static",
+                "staticValue": false
+              }
+            },
+            {
+              "type": "autonomous",
+              "toolType": "transition",
+              "condition": {
+                "valueType": "dynamic",
+                "dynamicValue": "if user says anything not stated in the options given transition to FallBack",
+                "staticValue": ""
+              },
+              "id": "ins-56d01ce4ea",
+              "category": "Flow Logic",
+              "label": "Transition",
+              "nodeId": "nd-adee8472bb",
+              "manualFields": [],
+              "transitions": [],
+              "destination": {
+                "node": "nd-8a94cdd922"
+              }
+            },
+            {
+              "type": "autonomous",
+              "toolType": "transition",
+              "condition": {
+                "valueType": "dynamic",
+                "dynamicValue": "after offering to show a diagram related to AI transition to ai_image",
+                "staticValue": ""
+              },
+              "id": "ins-ca973a9ffe",
+              "category": "Flow Logic",
+              "label": "Transition",
+              "nodeId": "nd-adee8472bb",
+              "manualFields": [],
+              "transitions": [],
+              "destination": {
+                "node": "nd-94a10db032"
+              }
+            }
+          ],
+          "allowConversation": true,
+          "readableVariables": [],
+          "id": "nd-adee8472bb",
+          "name": "AskQuestions",
+          "guidelines": {
+            "valueType": "dynamic",
+            "dynamicValue": "Welcome to the Ask a Question module. \nHere you can ask me anything about AI, Machine Learning, NLP, Ethics, Neural Networks, Large Language Models or see visual diagrams.\n\nStep 1: Handle Questions\n- Search the Knowledge Base for answers.\n- Respond clearly and simply.\n- If the answer is not found, say: \n\n  \"I can answer questions about AI, ML, NLP, Ethics, LLMs and visuals. Try one of those topics.\"\n\nStep 2: Encourage Exploration\nAfter answering, suggest:\n\n- \"Would you like to explore NLP, Ethics, AI or take the Quiz?\"\n\nStep 3: Return to Menu\nIf the user says \"menu\" or \"start over\", go to the Main workflow.\n"
+          }
+        },
+        {
+          "type": "autonomous",
+          "deletable": true,
+          "x": 1395,
+          "y": 90,
+          "instructions": [],
+          "allowConversation": true,
+          "readableVariables": [],
+          "id": "nd-8a94cdd922",
+          "name": "FallBack",
+          "guidelines": {
+            "valueType": "dynamic",
+            "dynamicValue": "If the user says something unclear or unrelated, respond:\n “Sorry, I didn’t catch that. Try NLP, Ethics, Quiz, or Ask a Question.”\n\nThen return to the main menu.\n\n"
+          }
+        },
+        {
+          "type": "standard",
+          "deletable": true,
+          "x": 1335,
+          "y": -570,
+          "instructions": [
+            {
+              "id": "ins-442413c65a",
+              "category": "Send Messages",
+              "type": "content",
+              "label": "image",
+              "content": {
+                "type": "card",
+                "imageUrl": {
+                  "staticValue": "https://s3.us-east-1.amazonaws.com/cloud-studio-botsbca2d619-1916w6llinepa/2b5dc0d9-e447-4892-9e79-2129862d6203/media/21baf8d9-90e5-4426-8e1e-2a493a6ed0ce.png",
+                  "valueType": "static"
+                },
+                "title": {
+                  "valueType": "dynamic",
+                  "dynamicValue": "NLP Pipeline",
+                  "staticValue": ""
+                },
+                "fileId": "file_01KAZHR2V724J76RFNQPCVC8J4",
+                "actions": {
+                  "valueType": "static",
+                  "staticValue": [],
+                  "isExpression": true
+                }
+              },
+              "nodeId": "nd-5ef94e5df4",
+              "transitions": []
+            }
+          ],
+          "defaultTransition": {
+            "targetNodeId": "nd-80ac4ff158"
+          },
+          "id": "nd-5ef94e5df4",
+          "name": "nlp_image"
+        },
+        {
+          "type": "standard",
+          "deletable": true,
+          "x": 1275,
+          "y": -255,
+          "instructions": [
+            {
+              "id": "ins-72bfaf66be",
+              "category": "Send Messages",
+              "type": "content",
+              "label": "image",
+              "content": {
+                "type": "image",
+                "imageUrl": {
+                  "staticValue": "https://files.bpcontent.cloud/2025/11/26/07/20251126074145-W28NWVJ4.png",
+                  "valueType": "static"
+                },
+                "title": {
+                  "valueType": "dynamic",
+                  "dynamicValue": "Ethics Diagram",
+                  "staticValue": ""
+                },
+                "fileId": "file_01KAZHRYDK06X1PDQ65VZWNVGE"
+              },
+              "nodeId": "nd-d546e08efa",
+              "transitions": []
+            }
+          ],
+          "defaultTransition": {
+            "targetNodeId": "nd-80ac4ff158"
+          },
+          "id": "nd-d546e08efa",
+          "name": "ethics_image"
+        },
+        {
+          "type": "standard",
+          "deletable": true,
+          "x": 1515,
+          "y": 840,
+          "instructions": [
+            {
+              "id": "ins-f53ebbea2c",
+              "category": "Send Messages",
+              "type": "content",
+              "label": "image",
+              "content": {
+                "type": "image",
+                "imageUrl": {
+                  "staticValue": "https://files.bpcontent.cloud/2025/11/26/07/20251126074253-NKGR0WKL.png",
+                  "valueType": "static"
+                },
+                "title": {
+                  "valueType": "dynamic",
+                  "dynamicValue": "AI Hierarchy ",
+                  "staticValue": ""
+                },
+                "fileId": "file_01KAZHV0B11BQVJVW4B5NFPFZ3"
+              },
+              "nodeId": "nd-94a10db032",
+              "transitions": []
+            }
+          ],
+          "defaultTransition": {
+            "targetNodeId": "nd-80ac4ff158"
+          },
+          "id": "nd-94a10db032",
+          "name": "ai_image"
+        }
+      ],
+      "parentFolder": "root"
+    },
+    {
+      "name": "HTTP requests / API calls",
+      "links": [],
+      "nodes": [
+        {
+          "x": 100,
+          "y": 100,
+          "id": "nd-844914e896",
+          "name": "Entry",
+          "type": "entry",
+          "deletable": false,
+          "variables": [
+            "var-fbe8f627c0"
+          ],
+          "instructions": [
+            {
+              "id": "trs-77260758cf",
+              "type": "transition",
+              "nodeId": "nd-844914e896",
+              "condition": {
+                "type": "expression",
+                "payload": "true"
+              },
+              "destination": {
+                "node": "nd-9b1d63b6bb"
+              },
+              "transitions": []
+            }
+          ]
+        },
+        {
+          "x": 800,
+          "y": 100,
+          "id": "nd-47aeece84a",
+          "name": "Success",
+          "type": "exit",
+          "deletable": false,
+          "variables": [
+            "var-92b4913cec"
+          ],
+          "instructions": [
+            {
+              "id": "trs-3c696a488d",
+              "type": "transition",
+              "nodeId": "nd-47aeece84a",
+              "condition": {
+                "type": "expression",
+                "payload": "true"
+              },
+              "destination": {
+                "node": "#"
+              },
+              "transitions": []
+            }
+          ]
+        },
+        {
+          "x": 435,
+          "y": 105,
+          "id": "nd-9b1d63b6bb",
+          "name": "Standard1",
+          "type": "standard",
+          "deletable": true,
+          "instructions": [
+            {
+              "id": "ins-140bd15d68",
+              "code": "const transformSchema = (input: any): any => {\n  const newSchema: any = {\n    url: input.url\n  }\n\n  // Check if method exists and add it to the new schema\n  if (input.method) {\n    newSchema.method = input.method\n  }\n\n  // Convert headers array to record if headers exist\n  if (input.headers && Array.isArray(input.headers)) {\n    newSchema.headers = input.headers.reduce((acc: Record<string, string>, header: any) => {\n      acc[header.key] = header.value\n      return acc\n    }, {})\n  }\n\n  // Convert body based on its type\n  if (input.body) {\n    switch (input.body.bodyType) {\n      case 'JSON':\n        // Ensure jsonBody exists and handle both object and array cases\n        if (Array.isArray(input.body.jsonBody)) {\n          newSchema.data = input.body.jsonBody.reduce((acc: any, obj: any) => {\n            acc[obj.a] = 'example' // You can replace 'example' with the appropriate value\n            return acc\n          }, {})\n        } else if (typeof input.body.jsonBody === 'object' && input.body.jsonBody !== null) {\n          // If jsonBody is an object, directly assign it to data\n          newSchema.data = input.body.jsonBody\n        } else {\n          newSchema.data = {} // Fallback if jsonBody is not an object\n        }\n        break\n      case 'Form':\n        // Ensure formBody exists and is an array before reducing\n        if (Array.isArray(input.body.formBody)) {\n          newSchema.data = input.body.formBody.reduce((acc: Record<string, string>, field: any) => {\n            acc[field.key] = field.value\n            return acc\n          }, {})\n        } else {\n          newSchema.data = {} // Fallback if formBody is not an array\n        }\n        break\n      case 'Text':\n        // For text body, assign the text directly\n        if (typeof input.body.textBody === 'string') {\n          newSchema.data = input.body.textBody\n        } else {\n          newSchema.data = '' // Fallback if textBody is not a string\n        }\n        break\n      default:\n        newSchema.data = undefined // No body\n    }\n  }\n\n  // Optional: Handle params or other fields if needed\n  if (input.params) {\n    newSchema.params = input.params\n  }\n\n  return newSchema\n}\n\n// Transform input to workflow.request:newSchema\nworkflow.request = transformSchema(workflow.inputs)\n",
+              "type": "action",
+              "label": "Transforms input into a new schema for a request.",
+              "nodeId": "nd-9b1d63b6bb",
+              "origin": "builtin",
+              "category": "Execute",
+              "transitions": [],
+              "isCustomLabel": false,
+              "transpiledCode": "var __defProp = Object.defineProperty;\nvar __name = (target, value) => __defProp(target, \"name\", { value, configurable: true });\nasync function __ROOT__() {\n  const transformSchema = /* @__PURE__ */ __name((input) => {\n    const newSchema = {\n      url: input.url\n    };\n    if (input.method) {\n      newSchema.method = input.method;\n    }\n    if (input.headers && Array.isArray(input.headers)) {\n      newSchema.headers = input.headers.reduce((acc, header) => {\n        acc[header.key] = header.value;\n        return acc;\n      }, {});\n    }\n    if (input.body) {\n      switch (input.body.bodyType) {\n        case \"JSON\":\n          if (Array.isArray(input.body.jsonBody)) {\n            newSchema.data = input.body.jsonBody.reduce((acc, obj) => {\n              acc[obj.a] = \"example\";\n              return acc;\n            }, {});\n          } else if (typeof input.body.jsonBody === \"object\" && input.body.jsonBody !== null) {\n            newSchema.data = input.body.jsonBody;\n          } else {\n            newSchema.data = {};\n          }\n          break;\n        case \"Form\":\n          if (Array.isArray(input.body.formBody)) {\n            newSchema.data = input.body.formBody.reduce((acc, field) => {\n              acc[field.key] = field.value;\n              return acc;\n            }, {});\n          } else {\n            newSchema.data = {};\n          }\n          break;\n        case \"Text\":\n          if (typeof input.body.textBody === \"string\") {\n            newSchema.data = input.body.textBody;\n          } else {\n            newSchema.data = \"\";\n          }\n          break;\n        default:\n          newSchema.data = void 0;\n      }\n    }\n    if (input.params) {\n      newSchema.params = input.params;\n    }\n    return newSchema;\n  }, \"transformSchema\");\n  workflow.request = transformSchema(workflow.inputs);\n}\n__name(__ROOT__, \"__ROOT__\");\n; return await __ROOT__();"
+            },
+            {
+              "id": "ins-90b77ff4b6",
+              "code": "const backedOffAxios = async (config, retries = 5, delay = 1000, attempt = 0) => {\n  try {\n    const response = await axios.request(config)\n\n    return response\n  } catch (error: AxiosError) {\n    if (error.response && error.response.status === 429 && attempt < retries) {\n      const backoff = delay * Math.pow(2, attempt)\n\n      console.log(`Request rate limited, retrying in ${backoff} ms`)\n\n      await new Promise((resolve) => setTimeout(resolve, backoff))\n\n      return backedOffAxios(config, retries, delay, attempt + 1)\n    }\n\n    throw error\n  }\n}\n\ntry {\n  workflow.response = await backedOffAxios(workflow.request)\n} catch (error: AxiosError) {\n  workflow.error = error\n}\n",
+              "type": "action",
+              "label": "Function for making HTTP requests with exponential backoff and retry",
+              "nodeId": "nd-9b1d63b6bb",
+              "origin": "builtin",
+              "category": "Execute",
+              "transitions": [],
+              "isCustomLabel": false,
+              "transpiledCode": "var __defProp = Object.defineProperty;\nvar __name = (target, value) => __defProp(target, \"name\", { value, configurable: true });\nasync function __ROOT__() {\n  const backedOffAxios = /* @__PURE__ */ __name(async (config, retries = 5, delay = 1e3, attempt = 0) => {\n    try {\n      const response = await axios.request(config);\n      return response;\n    } catch (error) {\n      if (error.response && error.response.status === 429 && attempt < retries) {\n        const backoff = delay * Math.pow(2, attempt);\n        console.log(`Request rate limited, retrying in ${backoff} ms`);\n        await new Promise((resolve) => setTimeout(resolve, backoff));\n        return backedOffAxios(config, retries, delay, attempt + 1);\n      }\n      throw error;\n    }\n  }, \"backedOffAxios\");\n  try {\n    workflow.response = await backedOffAxios(workflow.request);\n  } catch (error) {\n    workflow.error = error;\n  }\n  ;\n}\n__name(__ROOT__, \"__ROOT__\");\n; return await __ROOT__();"
+            },
+            {
+              "id": "ins-48a61a9062",
+              "type": "transition",
+              "label": "there is a response",
+              "nodeId": "nd-9b1d63b6bb",
+              "category": "Flow Logic",
+              "condition": {
+                "type": "expression",
+                "payload": "workflow.response !== undefined"
+              },
+              "generative": {
+                "label": "there is a response",
+                "properties": {
+                  "condition": true
+                },
+                "suggestion": {
+                  "condition": "workflow.response !== undefined"
+                }
+              },
+              "description": "",
+              "destination": {
+                "node": "nd-47aeece84a"
+              },
+              "transitions": []
+            }
+          ],
+          "defaultTransition": {
+            "targetNodeId": "nd-6eec0ce2be"
+          }
+        },
+        {
+          "x": 795,
+          "y": 285,
+          "id": "nd-6eec0ce2be",
+          "name": "Error",
+          "type": "exit",
+          "deletable": true,
+          "variables": [
+            "var-186e0c3bf3"
+          ],
+          "instructions": [
+            {
+              "id": "trs-e5d8ac8a21",
+              "type": "transition",
+              "label": "",
+              "nodeId": "nd-6eec0ce2be",
+              "condition": {
+                "type": "expression",
+                "payload": "true"
+              },
+              "generative": {
+                "label": "",
+                "properties": {
+                  "label": true,
+                  "condition": true
+                },
+                "suggestion": {
+                  "label": "",
+                  "condition": "true"
+                }
+              },
+              "destination": {
+                "node": "#"
+              },
+              "transitions": []
+            }
+          ]
+        }
+      ],
+      "startNode": "nd-844914e896",
+      "variables": [
+        {
+          "id": "var-186e0c3bf3",
+          "name": "error",
+          "type": "schema",
+          "scope": "workflow",
+          "schemaId": "schema-d2258ca4d8",
+          "description": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "var-fbe8f627c0",
+          "name": "inputs",
+          "type": "schema",
+          "scope": "workflow",
+          "schemaId": "schema-94af039fd1",
+          "description": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "var-3bb125f680",
+          "name": "request",
+          "type": "schema",
+          "scope": "workflow",
+          "schemaId": "schema-12d500f91c",
+          "description": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "var-92b4913cec",
+          "name": "response",
+          "type": "schema",
+          "scope": "workflow",
+          "schemaId": "schema-8b1f83dbd8",
+          "description": "",
+          "defaultValue": ""
+        }
+      ],
+      "description": "Perform HTTP requests or API calls from within Botpress bot flows, and get the result. This has an automatic back-off function in case an API limit is reached!",
+      "id": "wf-fdfdac2ff2",
+      "hubData": {
+        "hubId": "hsk-593097c41b",
+        "workspaceId": "wkspace_01HV99K2XWJ0G77V7C69NC4S0F",
+        "hash": "1yy0e7o",
+        "icon": "https://s3.us-east-1.amazonaws.com/cloud-studio-botsbca2d619-1916w6llinepa/public/media/6e20bd00-4e0e-44bc-8789-271a2d2d2331.webp",
+        "hubType": "workflow:execute"
+      }
+    }
+  ],
+  "intents": [
+    {
+      "id": "int-cancel",
+      "name": "cancel",
+      "utterances_with_slots": [
+        "cancel",
+        "abort",
+        "abandon",
+        "i want to cancel",
+        "forget about this",
+        "leave",
+        "stop",
+        "quit",
+        "you know what, nevermind",
+        "forget it"
+      ]
+    },
+    {
+      "id": "int-no",
+      "name": "no",
+      "utterances_with_slots": [
+        "no",
+        "i don't want to",
+        "absolutely not",
+        "nah",
+        "nope",
+        "not really",
+        "not sure",
+        "no thanks"
+      ]
+    },
+    {
+      "id": "int-yes",
+      "name": "yes",
+      "utterances_with_slots": [
+        "yes",
+        "yeah",
+        "absolutely",
+        "i'd like to",
+        "sure ",
+        "hmm probably",
+        "yup",
+        "ok"
+      ]
+    }
+  ],
+  "list_entities": [],
+  "pattern_entities": [],
+  "actions": [
+    {
+      "type": "code",
+      "id": "act-08931e269a",
+      "description": "",
+      "name": "CalculateLevel",
+      "raw_code": "\n/**\n\n* This action calculates the level based on the quiz score\n\n* and stores it in temp.level so it can be used in other nodes.\n\n*/\n \nconst score = temp.score || 0; // make sure score exists\n \nlet level = \"\";\n \nif (score >= 0 && score <= 7) {\n\n  level = \"Beginner\";\n\n} else if (score >= 8 && score <= 12) {\n\n  level = \"Intermediate\";\n\n} else if (score >= 13 && score <= 15) {\n\n  level = \"Advanced\";\n\n} else {\n\n  level = \"Invalid score\";\n\n}\n \n// Store level in temp for next nodes\n\ntemp.level = level;\n \n// Optional: return text to display directly in chat\n\nreturn `Your score is ${score}/15. Level: ${level}`;",
+      "transpiled_code": "var __defProp = Object.defineProperty;\nvar __name = (target, value) => __defProp(target, \"name\", { value, configurable: true });\nasync function __ROOT__() {\n  const score = temp.score || 0;\n  let level = \"\";\n  if (score >= 0 && score <= 7) {\n    level = \"Beginner\";\n  } else if (score >= 8 && score <= 12) {\n    level = \"Intermediate\";\n  } else if (score >= 13 && score <= 15) {\n    level = \"Advanced\";\n  } else {\n    level = \"Invalid score\";\n  }\n  temp.level = level;\n  return `Your score is ${score}/15. Level: ${level}`;\n  ;\n}\n__name(__ROOT__, \"__ROOT__\");\n; return await __ROOT__();",
+      "input_schema": {
+        "type": "schema",
+        "schemaId": "schema-876f2644e0"
+      },
+      "output_schema": {
+        "type": "schema",
+        "schemaId": "schema-4766e18d57"
+      }
+    }
+  ],
+  "hooks": [
+    {
+      "id": "hk-99mudt",
+      "name": "track_iterations",
+      "hookType": "after_llmz_execution",
+      "content": "await actions[\"agi/improvement\"].trackIterations({\n  iterations: execution.iterations.map((iteration) => ({\n    uri: `workflow://${execution.location?.workflowId}/${execution.location?.nodeId}`,\n    conversationId: event.conversationId!,\n    executionId: execution.context.id,\n    iterationId: iteration.id,\n    eventId: event.messageId ?? event.id,\n    userId: event.userId!,\n    iteration: {\n      code: iteration.code ?? \"\",\n      ended_ts: iteration.ended_ts,\n      started_ts: iteration.started_ts,\n      messages: iteration.messages,\n      model: iteration.llm.model,\n      mutations: iteration.mutations,\n      status: iteration.status,\n    },\n  })),\n});\n",
+      "title": "Track LLMz Iterations",
+      "description": "This hook tracks iterations after LLMz execution",
+      "origin": {
+        "type": "integration",
+        "integration": {
+          "id": "agi/improvement",
+          "name": "agi/improvement",
+          "version": "1.0.2",
+          "title": "Improvement"
+        }
+      },
+      "transpiledCode": "var __defProp = Object.defineProperty;\nvar __name = (target, value) => __defProp(target, \"name\", { value, configurable: true });\nasync function __ROOT__() {\n  await actions[\"agi/improvement\"].trackIterations({\n    iterations: execution.iterations.map((iteration) => ({\n      uri: `workflow://${execution.location?.workflowId}/${execution.location?.nodeId}`,\n      conversationId: event.conversationId,\n      executionId: execution.context.id,\n      iterationId: iteration.id,\n      eventId: event.messageId ?? event.id,\n      userId: event.userId,\n      iteration: {\n        code: iteration.code ?? \"\",\n        ended_ts: iteration.ended_ts,\n        started_ts: iteration.started_ts,\n        messages: iteration.messages,\n        model: iteration.llm.model,\n        mutations: iteration.mutations,\n        status: iteration.status\n      }\n    }))\n  });\n  ;\n}\n__name(__ROOT__, \"__ROOT__\");\n; return await __ROOT__();"
+    },
+    {
+      "id": "hk-1q8lg5q",
+      "name": "inject_learnings",
+      "hookType": "before_llmz_execution",
+      "content": "const { items } = await actions[\"agi/improvement\"].findFeedback({\n  uri: `workflow://${context.location?.workflowId}/${context.location?.nodeId}`,\n  search: context.transcript.map((x) => `${x.role}: ${x.content}`).join(\"\\n\"),\n});\n\nif (items.length) {\n  context.instructions += `\n\n    ## Learnings from Previous Experiences\n\n    ${items\n      .map(\n        (x, i) => `### Learning ${i + 1}\n    ${x.learning}\n    `\n      )\n      .join(\"\\n\")}\n    `;\n}\n",
+      "title": "Provide Learnings to LLMz",
+      "description": "This hook injects learnings into LLMz before execution",
+      "origin": {
+        "type": "integration",
+        "integration": {
+          "id": "agi/improvement",
+          "name": "agi/improvement",
+          "version": "1.0.2",
+          "title": "Improvement"
+        }
+      },
+      "transpiledCode": "var __defProp = Object.defineProperty;\nvar __name = (target, value) => __defProp(target, \"name\", { value, configurable: true });\nasync function __ROOT__() {\n  const { items } = await actions[\"agi/improvement\"].findFeedback({\n    uri: `workflow://${context.location?.workflowId}/${context.location?.nodeId}`,\n    search: context.transcript.map((x) => `${x.role}: ${x.content}`).join(\"\\n\")\n  });\n  if (items.length) {\n    context.instructions += `\n\n    ## Learnings from Previous Experiences\n\n    ${items.map(\n      (x, i) => `### Learning ${i + 1}\n    ${x.learning}\n    `\n    ).join(\"\\n\")}\n    `;\n  }\n  ;\n}\n__name(__ROOT__, \"__ROOT__\");\n; return await __ROOT__();"
+    }
+  ],
+  "qnas": [],
+  "folders": [],
+  "agents": {
+    "SummaryAgent": {
+      "enabled": false,
+      "config": {
+        "summaryMaxTokens": 100,
+        "transcriptMaxLines": 10,
+        "model": "fast-model"
+      }
+    },
+    "TranslatorAgent": {
+      "config": {
+        "detectLanguage": true
+      }
+    },
+    "KnowledgeAgent": {
+      "enabled": false,
+      "config": {
+        "answerManually": true,
+        "context": "Summary of the conversation:\n\"\"\"\n{{conversation.SummaryAgent.summary}}\n\"\"\"\n\nTranscript:\n\"\"\"\n{{conversation.SummaryAgent.transcript}}\n\"\"\"",
+        "bestModel": "gpt-4-turbo",
+        "fastestModel": "fast-model",
+        "questionModel": "fast-model",
+        "strategy": "hybrid",
+        "chunks": 50
+      }
+    },
+    "PersonalityAgent": {
+      "config": {
+        "personality": ""
+      }
+    },
+    "VisionAgent": {
+      "enabled": true,
+      "config": {
+        "extractionEnabled": true
+      }
+    }
+  },
+  "tables": {
+    "table_01KAZFV9R90Q5GWXCRJBEC8PYP": {
+      "id": "table_01KAZFV9R90Q5GWXCRJBEC8PYP",
+      "name": "RouterAgentTable",
+      "factor": 1,
+      "frozen": false,
+      "keyColumn": null,
+      "tags": {
+        "role": "agents/router/intents",
+        "agent": "RouterAgent",
+        "system": "true"
+      },
+      "createdAt": "2025-11-26T07:08:05.767Z",
+      "updatedAt": "2025-11-26T07:08:05.767Z",
+      "createdBy": "user:3c6c8fa8-08eb-43e4-91f9-1aff6170c7d3",
+      "updatedBy": null,
+      "isComputeEnabled": false,
+      "schema": {
+        "type": "object",
+        "x-zui": {},
+        "required": [
+          "phrase",
+          "intentId",
+          "phraseId"
+        ],
+        "properties": {
+          "phrase": {
+            "type": "string",
+            "x-zui": {
+              "index": 0,
+              "searchable": true
+            }
+          },
+          "intentId": {
+            "type": "string",
+            "x-zui": {
+              "index": 1,
+              "searchable": true
+            }
+          },
+          "phraseId": {
+            "type": "string",
+            "x-zui": {
+              "index": 2,
+              "searchable": true
+            }
+          }
+        },
+        "additionalProperties": true
+      },
+      "parentFolder": "root",
+      "selectors": []
+    },
+    "table_01KAZFV9T88GDBHYKP2ZRRH8VX": {
+      "id": "table_01KAZFV9T88GDBHYKP2ZRRH8VX",
+      "name": "Int_Improvement_Feedback_Table",
+      "factor": 30,
+      "frozen": true,
+      "keyColumn": null,
+      "tags": {
+        "origin": "integration",
+        "purpose": "improvement",
+        "version": "Nov-2024",
+        "integration": "Int_Improvement",
+        "x-studio-icon": "lucide://atom",
+        "x-studio-color": "green",
+        "x-studio-title": "Feedback",
+        "x-studio-readonly": "true",
+        "x-studio-description": "Table to store acquired feedback on iterations for active learning"
+      },
+      "createdAt": "2025-11-26T07:08:05.832Z",
+      "updatedAt": "2025-11-26T07:08:05.832Z",
+      "createdBy": "user:3c6c8fa8-08eb-43e4-91f9-1aff6170c7d3",
+      "updatedBy": null,
+      "isComputeEnabled": true,
+      "schema": {
+        "type": "object",
+        "x-zui": {},
+        "required": [
+          "uri",
+          "after",
+          "before",
+          "feedback",
+          "iterationId"
+        ],
+        "properties": {
+          "uri": {
+            "type": "string",
+            "x-zui": {
+              "index": 0,
+              "searchable": true
+            },
+            "maxLength": 250,
+            "minLength": 1
+          },
+          "after": {
+            "type": "string",
+            "x-zui": {
+              "index": 1,
+              "searchable": true
+            },
+            "minLength": 1
+          },
+          "before": {
+            "type": "string",
+            "x-zui": {
+              "index": 2,
+              "searchable": true
+            },
+            "minLength": 1
+          },
+          "feedback": {
+            "type": "string",
+            "x-zui": {
+              "index": 3,
+              "searchable": true
+            },
+            "minLength": 1
+          },
+          "learning": {
+            "type": "string",
+            "x-zui": {
+              "index": 4,
+              "computed": {
+                "model": "fast-model",
+                "action": "ai",
+                "prompt": "What would you tell your future self to improve next time?\nCode Before:\n\n```\n{{before}}\n```\n\nFeedback: \"{{feedback}}\"\n\nCode After:\n\n```\n{{after}}\n```\n\nFor the learning, it must be standalone, concise but also accurately depict the situation and feedback you were given.\n\nTry to follow one of the below structures:\n\n<example>\nIn [situation X], I learned that I should [use tool `X` rather than `Y` because ...]\n\n\\`\\`\\`\n// snippet using the right tool\n\\`\\`\\`\n</example>\n\n<example>\nWhen trying to [...], I should use [tool X, tool Y or tool Z] like this:\n\n\\`\\`\\`\n// snippet to explain a drastic code change between before and after, or a non-obvious code snippet\n\\`\\`\\`\n</example>\n\n<example>\nWhenever [Y] happens, I should avoid [...] and instead [...].\n\n\\`\\`\\`\n// snippet to implement the behavior change\n\\`\\`\\`\n</example>\n\nKeep it concise. Do not refer to \"this situation\" or to the feedback. Both have been provided by an expert reviewing the conversation, NOT the actual user. So you must embed the content from the above inside your learning so it is standalone.\nMake sure to include a code snippet that teaches the right behavior, but remaining generic enough to adapt to different conversations in the future.\n",
+                "dependencies": [
+                  "before",
+                  "feedback",
+                  "after"
+                ]
+              },
+              "searchable": true
+            },
+            "default": null,
+            "nullable": true,
+            "minLength": 1
+          },
+          "iterationId": {
+            "type": "string",
+            "x-zui": {
+              "index": 5,
+              "searchable": true
+            },
+            "maxLength": 100,
+            "minLength": 1
+          }
+        },
+        "additionalProperties": true
+      },
+      "parentFolder": "root",
+      "selectors": []
+    }
+  },
+  "schemas": [
+    {
+      "code": "z.object({\n  name: z.string(),\n  age: z.number(),\n  email: z.string().email(),\n  address: z.object({\n    street: z.string(),\n    city: z.string(),\n    zip: z.string().length(5),\n  })\n})",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "x-zui": {}
+          },
+          "age": {
+            "type": "number",
+            "x-zui": {}
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "x-zui": {}
+          },
+          "address": {
+            "type": "object",
+            "properties": {
+              "street": {
+                "type": "string",
+                "x-zui": {}
+              },
+              "city": {
+                "type": "string",
+                "x-zui": {}
+              },
+              "zip": {
+                "type": "string",
+                "minLength": 5,
+                "maxLength": 5,
+                "x-zui": {}
+              }
+            },
+            "required": [
+              "street",
+              "city",
+              "zip"
+            ],
+            "additionalProperties": false,
+            "x-zui": {}
+          }
+        },
+        "required": [
+          "name",
+          "age",
+          "email",
+          "address"
+        ],
+        "additionalProperties": false,
+        "x-zui": {}
+      },
+      "name": "NewActionInput",
+      "typings": "",
+      "id": "schema-18bc689d3b"
+    },
+    {
+      "code": "z.object({\n  name: z.string(),\n  age: z.number(),\n  email: z.string().email(),\n  address: z.object({\n    street: z.string(),\n    city: z.string(),\n    zip: z.string().length(5),\n  })\n})",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "x-zui": {}
+          },
+          "age": {
+            "type": "number",
+            "x-zui": {}
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "x-zui": {}
+          },
+          "address": {
+            "type": "object",
+            "properties": {
+              "street": {
+                "type": "string",
+                "x-zui": {}
+              },
+              "city": {
+                "type": "string",
+                "x-zui": {}
+              },
+              "zip": {
+                "type": "string",
+                "minLength": 5,
+                "maxLength": 5,
+                "x-zui": {}
+              }
+            },
+            "required": [
+              "street",
+              "city",
+              "zip"
+            ],
+            "additionalProperties": false,
+            "x-zui": {}
+          }
+        },
+        "required": [
+          "name",
+          "age",
+          "email",
+          "address"
+        ],
+        "additionalProperties": false,
+        "x-zui": {}
+      },
+      "name": "NewActionOutput",
+      "typings": "",
+      "id": "schema-827a3e3309"
+    },
+    {
+      "code": "z.object({\n  name: z.string(),\n  age: z.number(),\n  email: z.string().email(),\n  address: z.object({\n    street: z.string(),\n    city: z.string(),\n    zip: z.string().length(5),\n  })\n})",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "x-zui": {}
+          },
+          "age": {
+            "type": "number",
+            "x-zui": {}
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "x-zui": {}
+          },
+          "address": {
+            "type": "object",
+            "properties": {
+              "street": {
+                "type": "string",
+                "x-zui": {}
+              },
+              "city": {
+                "type": "string",
+                "x-zui": {}
+              },
+              "zip": {
+                "type": "string",
+                "minLength": 5,
+                "maxLength": 5,
+                "x-zui": {}
+              }
+            },
+            "required": [
+              "street",
+              "city",
+              "zip"
+            ],
+            "additionalProperties": false,
+            "x-zui": {}
+          }
+        },
+        "required": [
+          "name",
+          "age",
+          "email",
+          "address"
+        ],
+        "additionalProperties": false,
+        "x-zui": {}
+      },
+      "name": "NewActionInput",
+      "typings": "",
+      "id": "schema-876f2644e0"
+    },
+    {
+      "code": "z.object({\n  name: z.string(),\n  age: z.number(),\n  email: z.string().email(),\n  address: z.object({\n    street: z.string(),\n    city: z.string(),\n    zip: z.string().length(5),\n  })\n})",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "x-zui": {}
+          },
+          "age": {
+            "type": "number",
+            "x-zui": {}
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "x-zui": {}
+          },
+          "address": {
+            "type": "object",
+            "properties": {
+              "street": {
+                "type": "string",
+                "x-zui": {}
+              },
+              "city": {
+                "type": "string",
+                "x-zui": {}
+              },
+              "zip": {
+                "type": "string",
+                "minLength": 5,
+                "maxLength": 5,
+                "x-zui": {}
+              }
+            },
+            "required": [
+              "street",
+              "city",
+              "zip"
+            ],
+            "additionalProperties": false,
+            "x-zui": {}
+          }
+        },
+        "required": [
+          "name",
+          "age",
+          "email",
+          "address"
+        ],
+        "additionalProperties": false,
+        "x-zui": {}
+      },
+      "name": "NewActionOutput",
+      "typings": "",
+      "id": "schema-4766e18d57"
+    },
+    {
+      "code": "z.object({\n  name: z.string(),\n  age: z.number(),\n  email: z.string().email(),\n  address: z.object({\n    street: z.string(),\n    city: z.string(),\n    zip: z.string().length(5),\n  })\n})",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "x-zui": {}
+          },
+          "age": {
+            "type": "number",
+            "x-zui": {}
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "x-zui": {}
+          },
+          "address": {
+            "type": "object",
+            "properties": {
+              "street": {
+                "type": "string",
+                "x-zui": {}
+              },
+              "city": {
+                "type": "string",
+                "x-zui": {}
+              },
+              "zip": {
+                "type": "string",
+                "minLength": 5,
+                "maxLength": 5,
+                "x-zui": {}
+              }
+            },
+            "required": [
+              "street",
+              "city",
+              "zip"
+            ],
+            "additionalProperties": false,
+            "x-zui": {}
+          }
+        },
+        "required": [
+          "name",
+          "age",
+          "email",
+          "address"
+        ],
+        "additionalProperties": false,
+        "x-zui": {}
+      },
+      "name": "NewActionInput",
+      "typings": "",
+      "id": "schema-fbb9bf3c93"
+    },
+    {
+      "code": "z.object({\n  name: z.string(),\n  age: z.number(),\n  email: z.string().email(),\n  address: z.object({\n    street: z.string(),\n    city: z.string(),\n    zip: z.string().length(5),\n  })\n})",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "x-zui": {}
+          },
+          "age": {
+            "type": "number",
+            "x-zui": {}
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "x-zui": {}
+          },
+          "address": {
+            "type": "object",
+            "properties": {
+              "street": {
+                "type": "string",
+                "x-zui": {}
+              },
+              "city": {
+                "type": "string",
+                "x-zui": {}
+              },
+              "zip": {
+                "type": "string",
+                "minLength": 5,
+                "maxLength": 5,
+                "x-zui": {}
+              }
+            },
+            "required": [
+              "street",
+              "city",
+              "zip"
+            ],
+            "additionalProperties": false,
+            "x-zui": {}
+          }
+        },
+        "required": [
+          "name",
+          "age",
+          "email",
+          "address"
+        ],
+        "additionalProperties": false,
+        "x-zui": {}
+      },
+      "name": "NewActionOutput",
+      "typings": "",
+      "id": "schema-9592f645a3"
+    },
+    {
+      "id": "schema-d2258ca4d8",
+      "code": "z.object({\nmessage: z.string(),\n  name: z.string(),\n  stack: z.string().optional(),\n  config: z.object({\n    url: z.string().url().optional(),\n    method: z.string().optional(),\n    headers: z.record(z.string()).optional(),\n    params: z.record(z.any()).optional(),\n    data: z.any().optional(),\n    timeout: z.number().optional(),\n  }).optional(),\n  code: z.string().optional(),\n  request: z.any().optional(), // Usually an XMLHttpRequest, so can vary\n  response: z.object({\n    data: z.any(),\n    status: z.number(),\n    statusText: z.string(),\n    headers: z.record(z.string()).optional(),\n    config: z.any(),\n  }).optional(),\n})",
+      "name": "AxiosError",
+      "schema": {
+        "type": "object",
+        "x-zui": {},
+        "required": [
+          "message",
+          "name"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "x-zui": {}
+          },
+          "name": {
+            "type": "string",
+            "x-zui": {}
+          },
+          "stack": {
+            "type": "string",
+            "x-zui": {}
+          },
+          "config": {
+            "type": "object",
+            "x-zui": {},
+            "properties": {
+              "url": {
+                "type": "string",
+                "x-zui": {},
+                "format": "uri"
+              },
+              "data": {
+                "x-zui": {}
+              },
+              "method": {
+                "type": "string",
+                "x-zui": {}
+              },
+              "params": {
+                "type": "object",
+                "x-zui": {},
+                "additionalProperties": {
+                  "x-zui": {}
+                }
+              },
+              "headers": {
+                "type": "object",
+                "x-zui": {},
+                "additionalProperties": {
+                  "type": "string",
+                  "x-zui": {}
+                }
+              },
+              "timeout": {
+                "type": "number",
+                "x-zui": {}
+              }
+            },
+            "additionalProperties": false
+          },
+          "message": {
+            "type": "string",
+            "x-zui": {}
+          },
+          "request": {
+            "x-zui": {}
+          },
+          "response": {
+            "type": "object",
+            "x-zui": {},
+            "required": [
+              "status",
+              "statusText"
+            ],
+            "properties": {
+              "data": {
+                "x-zui": {}
+              },
+              "config": {
+                "x-zui": {}
+              },
+              "status": {
+                "type": "number",
+                "x-zui": {}
+              },
+              "headers": {
+                "type": "object",
+                "x-zui": {},
+                "additionalProperties": {
+                  "type": "string",
+                  "x-zui": {}
+                }
+              },
+              "statusText": {
+                "type": "string",
+                "x-zui": {}
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "typings": ""
+    },
+    {
+      "id": "schema-94af039fd1",
+      "code": "z.object({\n  // Method of the request\n  method: z\n    .enum(['GET', 'POST', 'PUT', 'DELETE', 'PATCH'])\n    .title('HTTP Method')\n    .describe('Select the HTTP method for the request'),\n\n  // URL field\n  url: z.string().url('Must be a valid URL').title('Request URL').describe('Enter the URL to send the request'),\n\n  // Headers: a key-value pair\n  headers: z\n    .array(\n      z.object({\n        key: z.string().title('Header name'),\n        value: z.string().title('Header value')\n      })\n    )\n    .title('Headers Object')\n    .describe('Type your key values {header1:value1,header2:value2}')\n    .placeholder('[yoyo]'),\n  // Discriminated union for request body\n  body: z.discriminatedUnion('bodyType', [\n    z.object({\n      bodyType: z.literal('None')\n      // No body for GET, DELETE methods\n    }),\n    z.object({\n      bodyType: z.literal('JSON'),\n      jsonBody: z\n        .array(\n          z.object({\n            a: z.string().default('You must use the above {x} button').disabled().title('Whoops!')\n          })\n        )\n        .title('Javascript object')\n        .describe('Use the {x} button to insert')\n    }),\n    z.object({\n      bodyType: z.literal('Form'),\n      formBody: z\n        .array(\n          z.object({\n            key: z.string().title('Key').describe('Form data key').disabled(),\n            value: z.string().title('Value').describe('Form data value').disabled()\n          })\n        )\n        .title('Form Data Body')\n        .describe('Provide an array of key-value pairs for form data')\n    }),\n    z.object({\n      bodyType: z.literal('Text'),\n      textBody: z.string().title('Text Body').describe('Provide plain text for the request body')\n    })\n  ]),\n\n  // Advanced settings with toggle\n  advancedSettings: z.discriminatedUnion('advancedEnabled', [\n    z.object({\n      advancedEnabled: z.literal('No').describe('Advanced settings disabled')\n    }),\n    z.object({\n      advancedEnabled: z.literal('Yes').describe('Advanced settings enabled'),\n      timeout: z\n        .number()\n        .min(1, 'Timeout must be greater than 0')\n        .title('Timeout')\n        .describe('Set the timeout for the request in seconds'),\n      retries: z\n        .number()\n        .min(0, 'Retries cannot be negative')\n        .title('Retries')\n        .describe('Number of retries if the request fails')\n    })\n  ])\n})\n",
+      "name": "HttpRequestInputs",
+      "schema": {
+        "type": "object",
+        "x-zui": {},
+        "required": [
+          "method",
+          "url",
+          "headers",
+          "body",
+          "advancedSettings"
+        ],
+        "properties": {
+          "url": {
+            "type": "string",
+            "x-zui": {
+              "title": "Request URL"
+            },
+            "format": "uri",
+            "description": "Enter the URL to send the request"
+          },
+          "body": {
+            "anyOf": [
+              {
+                "type": "object",
+                "x-zui": {},
+                "required": [
+                  "bodyType"
+                ],
+                "properties": {
+                  "bodyType": {
+                    "enum": [
+                      "None"
+                    ],
+                    "type": "string",
+                    "x-zui": {}
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "x-zui": {},
+                "required": [
+                  "bodyType",
+                  "jsonBody"
+                ],
+                "properties": {
+                  "bodyType": {
+                    "enum": [
+                      "JSON"
+                    ],
+                    "type": "string",
+                    "x-zui": {}
+                  },
+                  "jsonBody": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "x-zui": {},
+                      "properties": {
+                        "a": {
+                          "type": "string",
+                          "x-zui": {
+                            "title": "Whoops!",
+                            "disabled": true
+                          },
+                          "default": "You must use the above {x} button"
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "x-zui": {
+                      "title": "Javascript object"
+                    },
+                    "description": "Use the {x} button to insert"
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "x-zui": {},
+                "required": [
+                  "bodyType",
+                  "formBody"
+                ],
+                "properties": {
+                  "bodyType": {
+                    "enum": [
+                      "Form"
+                    ],
+                    "type": "string",
+                    "x-zui": {}
+                  },
+                  "formBody": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "x-zui": {},
+                      "required": [
+                        "key",
+                        "value"
+                      ],
+                      "properties": {
+                        "key": {
+                          "type": "string",
+                          "x-zui": {
+                            "title": "Key",
+                            "disabled": true
+                          },
+                          "description": "Form data key"
+                        },
+                        "value": {
+                          "type": "string",
+                          "x-zui": {
+                            "title": "Value",
+                            "disabled": true
+                          },
+                          "description": "Form data value"
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "x-zui": {
+                      "title": "Form Data Body"
+                    },
+                    "description": "Provide an array of key-value pairs for form data"
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "x-zui": {},
+                "required": [
+                  "bodyType",
+                  "textBody"
+                ],
+                "properties": {
+                  "bodyType": {
+                    "enum": [
+                      "Text"
+                    ],
+                    "type": "string",
+                    "x-zui": {}
+                  },
+                  "textBody": {
+                    "type": "string",
+                    "x-zui": {
+                      "title": "Text Body"
+                    },
+                    "description": "Provide plain text for the request body"
+                  }
+                },
+                "additionalProperties": false
+              }
+            ],
+            "x-zui": {}
+          },
+          "method": {
+            "enum": [
+              "GET",
+              "POST",
+              "PUT",
+              "DELETE",
+              "PATCH"
+            ],
+            "type": "string",
+            "x-zui": {
+              "title": "HTTP Method"
+            },
+            "description": "Select the HTTP method for the request"
+          },
+          "headers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "x-zui": {},
+              "required": [
+                "key",
+                "value"
+              ],
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "x-zui": {
+                    "title": "Header name"
+                  }
+                },
+                "value": {
+                  "type": "string",
+                  "x-zui": {
+                    "title": "Header value"
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            "x-zui": {
+              "title": "Headers Object",
+              "placeholder": "[yoyo]"
+            },
+            "description": "Type your key values {header1:value1,header2:value2}"
+          },
+          "advancedSettings": {
+            "anyOf": [
+              {
+                "type": "object",
+                "x-zui": {},
+                "required": [
+                  "advancedEnabled"
+                ],
+                "properties": {
+                  "advancedEnabled": {
+                    "enum": [
+                      "No"
+                    ],
+                    "type": "string",
+                    "x-zui": {},
+                    "description": "Advanced settings disabled"
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "x-zui": {},
+                "required": [
+                  "advancedEnabled",
+                  "timeout",
+                  "retries"
+                ],
+                "properties": {
+                  "retries": {
+                    "type": "number",
+                    "x-zui": {
+                      "title": "Retries"
+                    },
+                    "minimum": 0,
+                    "description": "Number of retries if the request fails"
+                  },
+                  "timeout": {
+                    "type": "number",
+                    "x-zui": {
+                      "title": "Timeout"
+                    },
+                    "minimum": 1,
+                    "description": "Set the timeout for the request in seconds"
+                  },
+                  "advancedEnabled": {
+                    "enum": [
+                      "Yes"
+                    ],
+                    "type": "string",
+                    "x-zui": {},
+                    "description": "Advanced settings enabled"
+                  }
+                },
+                "additionalProperties": false
+              }
+            ],
+            "x-zui": {}
+          }
+        },
+        "additionalProperties": false
+      },
+      "typings": ""
+    },
+    {
+      "id": "schema-12d500f91c",
+      "code": "z.object({\n  url: z.string().url(),\n  method: z.enum(['GET', 'POST', 'PUT', 'DELETE', 'PATCH']).optional(),\n  headers: z.record(z.string()).optional(),\n  params: z.record(z.string()).optional(),\n  data: z.unknown().optional(),\n})",
+      "name": "AxiosRequest",
+      "schema": {
+        "type": "object",
+        "x-zui": {},
+        "required": [
+          "url"
+        ],
+        "properties": {
+          "url": {
+            "type": "string",
+            "x-zui": {},
+            "format": "uri"
+          },
+          "data": {
+            "x-zui": {}
+          },
+          "method": {
+            "enum": [
+              "GET",
+              "POST",
+              "PUT",
+              "DELETE",
+              "PATCH"
+            ],
+            "type": "string",
+            "x-zui": {}
+          },
+          "params": {
+            "type": "object",
+            "x-zui": {},
+            "additionalProperties": {
+              "type": "string",
+              "x-zui": {}
+            }
+          },
+          "headers": {
+            "type": "object",
+            "x-zui": {},
+            "additionalProperties": {
+              "type": "string",
+              "x-zui": {}
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "typings": ""
+    },
+    {
+      "id": "schema-8b1f83dbd8",
+      "code": "z.object({\n data: z.any(), // The response body, can be of any type depending on the request\n  status: z.number().int().min(100).max(599), // HTTP status code (100-599)\n  statusText: z.string(), // Status text associated with the status code\n  headers: z.record(z.string()).optional(), // Response headers as key-value pairs\n  config: z.object({\n    url: z.string().url().optional(),\n    method: z.enum([\"GET\", \"POST\", \"PUT\", \"DELETE\", \"PATCH\", \"OPTIONS\", \"HEAD\"]).optional(),\n    headers: z.record(z.string()).optional(),\n    params: z.record(z.union([z.string(), z.number(), z.boolean()])).optional(),\n    data: z.any().optional(),\n    timeout: z.number().int().optional(),\n    responseType: z.enum([\"arraybuffer\", \"blob\", \"document\", \"json\", \"text\", \"stream\"]).optional(),\n    withCredentials: z.boolean().optional(),\n    baseURL: z.string().url().optional(),\n    maxRedirects: z.number().int().optional(),\n    validateStatus: z.function().args(z.number()).returns(z.boolean()).optional(),\n    onUploadProgress: z.function().args(z.any()).returns(z.void()).optional(),\n    onDownloadProgress: z.function().args(z.any()).returns(z.void()).optional(),\n    cancelToken: z.any().optional(),\n  }).optional(), // The config object used for the request\n  request: z.any().optional(), // The underlying request object (usually an XMLHttpRequest in the browser)\n})",
+      "name": "AxiosResponse",
+      "schema": {
+        "type": "object",
+        "x-zui": {},
+        "required": [
+          "status",
+          "statusText"
+        ],
+        "properties": {
+          "data": {
+            "x-zui": {}
+          },
+          "config": {
+            "type": "object",
+            "x-zui": {},
+            "properties": {
+              "url": {
+                "type": "string",
+                "x-zui": {},
+                "format": "uri"
+              },
+              "data": {
+                "x-zui": {}
+              },
+              "method": {
+                "enum": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "DELETE",
+                  "PATCH",
+                  "OPTIONS",
+                  "HEAD"
+                ],
+                "type": "string",
+                "x-zui": {}
+              },
+              "params": {
+                "type": "object",
+                "x-zui": {},
+                "additionalProperties": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "x-zui": {}
+                    },
+                    {
+                      "type": "number",
+                      "x-zui": {}
+                    },
+                    {
+                      "type": "boolean",
+                      "x-zui": {}
+                    }
+                  ],
+                  "x-zui": {}
+                }
+              },
+              "baseURL": {
+                "type": "string",
+                "x-zui": {},
+                "format": "uri"
+              },
+              "headers": {
+                "type": "object",
+                "x-zui": {},
+                "additionalProperties": {
+                  "type": "string",
+                  "x-zui": {}
+                }
+              },
+              "timeout": {
+                "type": "integer",
+                "x-zui": {}
+              },
+              "cancelToken": {
+                "x-zui": {}
+              },
+              "maxRedirects": {
+                "type": "integer",
+                "x-zui": {}
+              },
+              "responseType": {
+                "enum": [
+                  "arraybuffer",
+                  "blob",
+                  "document",
+                  "json",
+                  "text",
+                  "stream"
+                ],
+                "type": "string",
+                "x-zui": {}
+              },
+              "withCredentials": {
+                "type": "boolean",
+                "x-zui": {}
+              }
+            },
+            "additionalProperties": false
+          },
+          "status": {
+            "type": "integer",
+            "x-zui": {},
+            "maximum": 599,
+            "minimum": 100
+          },
+          "headers": {
+            "type": "object",
+            "x-zui": {},
+            "additionalProperties": {
+              "type": "string",
+              "x-zui": {}
+            }
+          },
+          "request": {
+            "x-zui": {}
+          },
+          "statusText": {
+            "type": "string",
+            "x-zui": {}
+          }
+        },
+        "additionalProperties": false
+      },
+      "typings": ""
+    }
+  ],
+  "versions": [
+    {
+      "name": "28 Nov 25 02:07",
+      "id": "version_01KB55RT0XEMRM51538HRPYZYH"
+    },
+    {
+      "name": "27 Nov 25 02:48",
+      "id": "version_01KB2NQ19HPERJWS1SGCRN7Y2E"
+    },
+    {
+      "name": "27 Nov 25 09:01",
+      "id": "version_01KB21V16F4ADJ9GDJD2346PXK"
+    }
+  ],
+  "revision": 771,
+  "revisionMetadata": {
+    "lastRevisionCheckAt": "2025-12-17T07:25:58.936Z",
+    "lastRevisionId": -1,
+    "multiplayerStatus": "connected",
+    "multiplayerTraces": [
+      "2025-12-17T07:26:02.487Z: Initializing Client... - {\"initializing\":false,\"initialized\":false}",
+      "2025-12-17T07:26:02.565Z: Connection State: initialized -> connecting (ok)",
+      "2025-12-17T07:26:04.343Z (zg40AQ7MY0): Connection State: connecting -> connected (ok)",
+      "2025-12-17T07:26:04.593Z (zg40AQ7MY0): Multiplayer session initialized!",
+      "2025-12-17T07:26:04.807Z (zg40AQ7MY0): Player entered channel - {\"sessionId\":\"sess_01KCNK734M5MEYCWCPEDHRXC3P\",\"connectionId\":\"zg40AQ7MY0\",\"joinedAt\":\"2025-12-17T07:26:04.594Z\",\"email\":\"artsyness17@gmail.com\",\"color\":\"var(--orange-8)\",\"workspaceUserId\":\"3c6c8fa8-08eb-43e4-91f9-1aff6170c7d3\",\"lastActiveAt\":\"Wed, 17 Dec 2025 07:26:02 GMT\",\"connectedAt\":\"Wed, 17 Dec 2025 07:26:02 GMT\",\"sections\":[]}",
+      "2025-12-17T07:26:04.808Z (zg40AQ7MY0): artsyness17@gmail.com was elected as master - \"sess_01KCNK734M5MEYCWCPEDHRXC3P\""
+    ],
+    "players": [
+      "artsyness17@gmail.com / sess_01KCNK734M5MEYCWCPEDHRXC3P / Wed, 17 Dec 2025 07:26:02 GMT /  Wed, 17 Dec 2025 07:26:02 GMT"
+    ],
+    "savedAt": "2025-12-17T07:26:05.550Z",
+    "savedBy": "artsyness17@gmail.com",
+    "sessionId": "sess_01KCNK734M5MEYCWCPEDHRXC3P"
+  },
+  "identity": {
+    "name": "New Agent",
+    "manual_instructions": "",
+    "icon": {
+      "type": "emoji",
+      "emoji": "🤖 ",
+      "background_color": "oklch(var(--color-orange-200))"
+    },
+    "ai_summary": {
+      "value": "Chatbot named sparkling-eland provides concise information.",
+      "input_hash": "7j8s9",
+      "generated_at": "2025-02-26T18:41:46.789Z",
+      "version": "1.0.0"
+    }
+  }
+}
